@@ -122,11 +122,6 @@ class Game2048:
 
         if event.keysym == 'Left':
             result = self.move_left(game_matrix_test, self.gameScore)
-            if self.gameMatrix != result[0]:
-                self.gameMatrix = result[0]
-                self.gameScore = result[1]
-                moved = True
-                
         elif event.keysym == 'Right':
             result = self.move_right(game_matrix_test, self.gameScore)
         elif event.keysym == 'Up':
@@ -387,31 +382,6 @@ class Game2048:
             time.sleep(1)
             self.timeScore += 1
             self.time_label.config(text=f"Time: {self.timeScore}")
-
-        tabScore = self.get_best_score()
-        firstLine = "1. " + " ".join(map(str, tabScore[0][:2])) if len(tabScore) > 0 else "1. -"
-        secondLine = "2. " + " ".join(map(str, tabScore[1][:2])) if len(tabScore) > 1 else "2. -"
-        thirdLine = "3. " + " ".join(map(str, tabScore[2][:2])) if len(tabScore) > 2 else "3. -"
-
-        self.title_label = tk.Label(root, text="2048", font=("Arial", 28, "bold"), background="#FBF9EF", fg = "#776E65", anchor="w")
-        self.title_label.grid(row=0, column=0, columnspan=self.nDimension, sticky="ew")
-
-        self.bestScore_label = tk.Label(self.root, text=f"Best:\n{firstLine}\n{secondLine}\n{thirdLine}",
-                                        font=("Arial", 16, "bold"), background="#FBF9EF", fg="#776E65",
-                                        anchor="w", justify="left", wraplength=self.root.winfo_width())
-        self.bestScore_label.grid(row=1, column=0, columnspan=self.nDimension, sticky="ew")
-
-        self.score_label = tk.Label(self.root, text=f"Score: {self.gameScore}",
-                                    font=("Arial", 16, "bold"), background="#FBF9EF", fg="#776E65",
-                                    anchor="w", wraplength=self.root.winfo_width())
-        self.score_label.grid(row=2, column=0, columnspan=self.nDimension, sticky="ew")
-
-        self.time_label = tk.Label(self.root, text=f"Time: {self.timeScore}",
-                                font=("Arial", 16, "bold"), background="#FBF9EF", fg="#776E65",
-                                anchor="e", wraplength=self.root.winfo_width())
-        self.time_label.grid(row=2, column=0, columnspan=self.nDimension, sticky="e")
-
-        self.setup_game_control_ui()
     def get_best_score(self):
         conn = sqlite3.connect('database.db')
         cur = conn.cursor()
